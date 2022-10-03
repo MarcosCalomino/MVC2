@@ -1,0 +1,71 @@
+﻿@model IEnumerable<WebApplication1.Models.Libro>
+@{
+    ViewData["Title"] = "Lista de libros";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    @if(TempData["mensaje"] != null) //ESTO SE EJECUTA SOLO SI EL TempData TIENE UN MSJ
+     {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            @TempData["mensaje"];
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+            <span >OK</span>
+        </div>
+     }
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>Lista de Libros</h3>
+        </div>
+        <div class="col-sm-6">
+            <a class="btn btn-success d-block" asp-action="Create" asp-controller="Libros">Nuevo Libro</a>
+        </div>
+    </div>
+
+    <div class="row-9">
+        @if (Model.Count()>0)//SI EN EL MODELO HAY MAS DE 0 REISTROS
+         {
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <td>@Html.DisplayNameFor(m => m.Id)</td>
+                        <td>@Html.DisplayNameFor(m => m.Titulo)</td>
+                        <td>@Html.DisplayNameFor(m => m.Descripcion)</td>
+                        <td>@Html.DisplayNameFor(m => m.FechaLanzamiento)</td>
+                        <td>@Html.DisplayNameFor(m => m.Autor)</td>
+                        <td>@Html.DisplayNameFor(m => m.Precio)</td>
+                        <td>Acciones</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var iten in Model)
+                     {
+                    <tr>
+                        <td>@iten.Id</td>
+                        <td>@iten.Titulo</td>
+                        <td>@iten.Descripcion</td>
+                        <td>@iten.FechaLanzamiento</td>
+                        <td>@iten.Autor</td>
+                        <td>@iten.Precio</td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <a asp-controller="Libros" asp-action="Edit" asp-route-id="@iten.Id" class="btn btn-warning">Editar</a>
+                                </div>
+                                <div class="col-sm-5">
+                                    <a asp-controller="Libros" asp-action="Delete" asp-route-id="@iten.Id" class="btn btn-danger">Eliminar</a>
+                                </div>         
+                            </div>
+                        </td>
+                    </tr>
+                     }
+                </tbody>
+            </table> 
+         }
+         else
+         { 
+            <p>No existe registros.</p>
+         }
+    </div>
+</div>
+
